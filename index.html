@@ -1510,63 +1510,65 @@
     </div>
 
     <script>
+        console.log('=== Trust Diagnostic Script Loading ===');
+        
         // Quiz data storage
         let quizData = {
-            firstName: '',
-            email: '',
+            firstName: "",
+            email: "",
             responses: {}
         };
 
         // Lever descriptions
         const leverDescriptions = {
             recognition: {
-                name: 'Recognition',
-                description: 'Recognition determines whether buyers immediately see you as the obvious choice or compare you to others. When recognition is strong, potential clients quickly identify that you operate at a higher level. When it's weak, you blend into the noise.',
-                question: 'Do buyers immediately recognise you as the obvious and only choice, or do they compare you to others?'
+                name: "Recognition",
+                description: "Recognition determines whether buyers immediately see you as the obvious choice or compare you to others. When recognition is strong, potential clients quickly identify that you operate at a higher level. When it\'s weak, you blend into the noise.",
+                question: "Do buyers immediately recognise you as the obvious and only choice, or do they compare you to others?"
             },
             comprehension: {
-                name: 'Comprehension',
-                description: 'Comprehension measures whether buyers instantly understand what you do, why it matters, and the result they'll get. When comprehension is strong, your positioning is crystal clear. When it's weak, sales conversations stall on basic explanations.',
-                question: 'Do buyers instantly understand what you do, why it matters to them, and the result they'll get?'
+                name: "Comprehension",
+                description: "Comprehension measures whether buyers instantly understand what you do, why it matters, and the result they\'ll get. When comprehension is strong, your positioning is crystal clear. When it\'s weak, sales conversations stall on basic explanations.",
+                question: "Do buyers instantly understand what you do, why it matters to them, and the result they\'ll get?"
             },
             evidence: {
-                name: 'Evidence',
-                description: 'Evidence shows whether buyers believe your work gets consistent results for people like them. Strong evidence reduces perceived risk and hesitation. Weak evidence leaves buyers questioning whether your work will apply to their situation.',
-                question: 'Do buyers believe your work gets consistent results for people like them, reducing perceived risk?'
+                name: "Evidence",
+                description: "Evidence shows whether buyers believe your work gets consistent results for people like them. Strong evidence reduces perceived risk and hesitation. Weak evidence leaves buyers questioning whether your work will apply to their situation.",
+                question: "Do buyers believe your work gets consistent results for people like them, reducing perceived risk?"
             },
             resonance: {
-                name: 'Resonance',
-                description: 'Resonance measures whether buyers feel emotionally connected to your identity and leadership, not just informed. Strong resonance means people follow your work over time because of who you are. Weak resonance means your voice blends into industry noise.',
-                question: 'Do buyers feel emotionally connected to your identity and leadership, not just informed?'
+                name: "Resonance",
+                description: "Resonance measures whether buyers feel emotionally connected to your identity and leadership, not just informed. Strong resonance means people follow your work over time because of who you are. Weak resonance means your voice blends into industry noise.",
+                question: "Do buyers feel emotionally connected to your identity and leadership, not just informed?"
             },
             regulation: {
-                name: 'Regulation',
-                description: 'Regulation determines whether buyers feel safe, grounded, and steady in your presence. Strong regulation creates emotional safety and trust. Weak regulation shows up as overwhelm, inconsistency, or burnout that buyers can sense.',
-                question: 'Do buyers feel safe, grounded, and steady in your presence and delivery?'
+                name: "Regulation",
+                description: "Regulation determines whether buyers feel safe, grounded, and steady in your presence. Strong regulation creates emotional safety and trust. Weak regulation shows up as overwhelm, inconsistency, or burnout that buyers can sense.",
+                question: "Do buyers feel safe, grounded, and steady in your presence and delivery?"
             },
             reliability: {
-                name: 'Reliability',
-                description: 'Reliability measures whether trust and results compound over time or reset repeatedly. Strong reliability means your brand shows up consistently and delivers dependable outcomes. Weak reliability creates a pattern of rebuilding trust from scratch.',
-                question: 'Does trust and results compound over time, or reset repeatedly?'
+                name: "Reliability",
+                description: "Reliability measures whether trust and results compound over time or reset repeatedly. Strong reliability means your brand shows up consistently and delivers dependable outcomes. Weak reliability creates a pattern of rebuilding trust from scratch.",
+                question: "Does trust and results compound over time, or reset repeatedly?"
             }
         };
 
         // Show page function
         function showPage(pageId) {
             // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
+            document.querySelectorAll(".page").forEach(page => {
+                page.classList.remove("active");
             });
             
             // Show requested page
-            document.getElementById(pageId).classList.add('active');
+            document.getElementById(pageId).classList.add("active");
             
             // Show/hide progress bar
-            if (pageId.includes('lever')) {
-                document.getElementById('progress-container').style.display = 'block';
+            if (pageId.includes("lever")) {
+                document.getElementById("progress-container").style.display = "block";
                 updateProgress();
             } else {
-                document.getElementById('progress-container').style.display = 'none';
+                document.getElementById("progress-container").style.display = "none";
             }
             
             // Scroll to top
@@ -1576,9 +1578,9 @@
         // Submit email form
         function submitEmail(event) {
             event.preventDefault();
-            quizData.firstName = document.getElementById('firstName').value;
-            quizData.email = document.getElementById('email').value;
-            showPage('page-lever1');
+            quizData.firstName = document.getElementById("firstName").value;
+            quizData.email = document.getElementById("email").value;
+            showPage("page-lever1");
             return false;
         }
 
@@ -1587,19 +1589,19 @@
             // Check if all questions on current page are answered
             let allAnswered = true;
             questionNumbers.forEach(qNum => {
-                const radios = document.getElementsByName('q' + qNum);
+                const radios = document.getElementsByName("q" + qNum);
                 let answered = false;
                 radios.forEach(radio => {
                     if (radio.checked) {
                         answered = true;
-                        quizData.responses['q' + qNum] = parseInt(radio.value);
+                        quizData.responses["q" + qNum] = parseInt(radio.value);
                     }
                 });
                 if (!answered) allAnswered = false;
             });
             
             if (!allAnswered) {
-                alert('Please answer all questions before continuing.');
+                alert("Please answer all questions before continuing.");
                 return;
             }
             
@@ -1612,8 +1614,8 @@
             const answeredCount = Object.keys(quizData.responses).length;
             const percentage = (answeredCount / totalQuestions) * 100;
             
-            document.getElementById('progress-fill').style.width = percentage + '%';
-            document.getElementById('progress-text').textContent = `Question ${answeredCount + 1} of ${totalQuestions}`;
+            document.getElementById("progress-fill").style.width = percentage + "%";
+            document.getElementById("progress-text").textContent = `Question ${answeredCount + 1} of ${totalQuestions}`;
         }
 
         // Calculate results
@@ -1622,19 +1624,19 @@
             const questionNumbers = [21, 22, 23, 24];
             let allAnswered = true;
             questionNumbers.forEach(qNum => {
-                const radios = document.getElementsByName('q' + qNum);
+                const radios = document.getElementsByName("q" + qNum);
                 let answered = false;
                 radios.forEach(radio => {
                     if (radio.checked) {
                         answered = true;
-                        quizData.responses['q' + qNum] = parseInt(radio.value);
+                        quizData.responses["q" + qNum] = parseInt(radio.value);
                     }
                 });
                 if (!answered) allAnswered = false;
             });
             
             if (!allAnswered) {
-                alert('Please answer all questions before viewing results.');
+                alert("Please answer all questions before viewing results.");
                 return;
             }
             
@@ -1660,28 +1662,28 @@
             displayResults(overallScore, leverScores, bottleneck);
             
             // Show results page
-            showPage('page-results');
+            showPage("page-results");
         }
 
         // Display results
         function displayResults(overallScore, leverScores, bottleneck) {
             // Overall score
-            document.getElementById('overall-score-number').textContent = overallScore;
+            document.getElementById("overall-score-number").textContent = overallScore;
             
             // Overall interpretation
-            let interpretation = '';
+            let interpretation = "";
             if (overallScore >= 24 && overallScore <= 54) {
-                interpretation = 'Trust is fragmented. Buyers hesitate, compare, or delay. This is your opportunity to rebuild trust architecture systematically.';
+                interpretation = "Trust is fragmented. Buyers hesitate, compare, or delay. This is your opportunity to rebuild trust architecture systematically.";
             } else if (overallScore >= 55 && overallScore <= 89) {
-                interpretation = 'Trust is present but leaking. Credibility exists, but gaps constrain growth. You are closer than you think to breakthrough momentum.';
+                interpretation = "Trust is present but leaking. Credibility exists, but gaps constrain growth. You are closer than you think to breakthrough momentum.";
             } else {
-                interpretation = 'Trust is strong and compounding. Authority works in your favour. Focus on optimising what is already working and addressing any remaining weak points.';
+                interpretation = "Trust is strong and compounding. Authority works in your favour. Focus on optimising what is already working and addressing any remaining weak points.";
             }
-            document.getElementById('overall-interpretation').textContent = interpretation;
+            document.getElementById("overall-interpretation").textContent = interpretation;
             
             // Lever results
-            const leverResultsContainer = document.getElementById('lever-results-container');
-            leverResultsContainer.innerHTML = '';
+            const leverResultsContainer = document.getElementById("lever-results-container");
+            leverResultsContainer.innerHTML = "";
             
             Object.keys(leverScores).forEach(lever => {
                 const score = leverScores[lever];
@@ -1689,21 +1691,21 @@
                 const isBottleneck = lever === bottleneck;
                 
                 // Determine status
-                let status = '';
-                let statusClass = '';
+                let status = "";
+                let statusClass = "";
                 if (score >= 4 && score <= 9) {
-                    status = 'Low';
-                    statusClass = 'low';
+                    status = "Low";
+                    statusClass = "low";
                 } else if (score >= 10 && score <= 15) {
-                    status = 'Medium';
-                    statusClass = 'medium';
+                    status = "Medium";
+                    statusClass = "medium";
                 } else {
-                    status = 'High';
-                    statusClass = 'high';
+                    status = "High";
+                    statusClass = "high";
                 }
                 
                 const leverHtml = `
-                    <div class="lever-result ${isBottleneck ? 'bottleneck' : ''}">
+                    <div class="lever-result ${isBottleneck ? "bottleneck" : ""}">
                         <div class="lever-result-header">
                             <div>
                                 <span class="lever-name">${leverInfo.name}</span>
@@ -1723,30 +1725,37 @@
             
             // Bottleneck callout
             const bottleneckInfo = leverDescriptions[bottleneck];
-            document.getElementById('bottleneck-text').innerHTML = `
+            document.getElementById("bottleneck-text").innerHTML = `
                 <strong>${bottleneckInfo.name}</strong> is your primary trust bottleneck. Even if everything else is strong, trust cannot fully convert or compound whilst this remains weak. This is where your attention needs to go first.
             `;
             
             // Offer emphasis logic
-            const perceptionMapOffer = document.getElementById('perception-map-offer');
-            const auditOffer = document.getElementById('audit-offer');
+            const perceptionMapOffer = document.getElementById("perception-map-offer");
+            const auditOffer = document.getElementById("audit-offer");
             
             // Emphasise Perception Map if: Recognition, Comprehension, or Resonance is lowest OR overall score < 90
-            if (['recognition', 'comprehension', 'resonance'].includes(bottleneck) || overallScore < 90) {
-                perceptionMapOffer.classList.add('emphasised');
+            if (["recognition", "comprehension", "resonance"].includes(bottleneck) || overallScore < 90) {
+                perceptionMapOffer.classList.add("emphasised");
             }
             
             // Emphasise Audit if: Regulation or Reliability is lowest OR score >= 90 OR Evidence is low
-            if (['regulation', 'reliability'].includes(bottleneck) || overallScore >= 90 || 
-                (bottleneck === 'evidence' && leverScores.evidence < 10)) {
-                auditOffer.classList.add('emphasised');
+            if (["regulation", "reliability"].includes(bottleneck) || overallScore >= 90 || 
+                (bottleneck === "evidence" && leverScores.evidence < 10)) {
+                auditOffer.classList.add("emphasised");
             }
         }
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
+        console.log("=== All functions defined successfully ===");
+        console.log("showPage:", typeof showPage);
+        console.log("submitEmail:", typeof submitEmail);
+        console.log("validateAndContinue:", typeof validateAndContinue);
+        console.log("calculateResults:", typeof calculateResults);
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("=== DOM Content Loaded ===");
             // Set initial page
-            showPage('page-intro');
+            showPage("page-intro");
         });
     </script>
 </body>
