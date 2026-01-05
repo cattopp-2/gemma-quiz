@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Trusted Authority Diagnostic™ | Lighthouse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f2efeb;
+            color: #212121;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Logo */
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 40px;
+        }
+
+        .logo-text {
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1.2;
+            color: #212121;
+        }
+
+        .logo-text .the {
+            font-size: 24px;
+            font-weight: 400;
+            display: block;
+        }
+
+        /* Intro Page */
+        .intro-content {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #212121;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .intro-text {
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .intro-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .feature {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            background: #fbda00;
+            color: #212121;
+            border: none;
+            padding: 18px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #e8c900;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(251, 218, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: #212121;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #3a3a3a;
+        }
+
+        /* Email Capture */
+        .email-form {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #fbda00;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #fbda00;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #212121;
+        }
+
+        /* Questions */
+        .question-container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .lever-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fbda00;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            margin-bottom: 50px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .rating-option {
+            flex: 1;
+            text-align: center;
+        }
+
+        .rating-option input[type="radio"] {
+            display: none;
+        }
+
+        .rating-option label {
+            display: block;
+            padding: 15px 10px;
+            background: #f8f8f8;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .rating-option input[type="radio"]:checked + label {
+            background: #fbda00;
+            border-color: #fbda00;
+            color: #212121;
+        }
+
+        .rating-option label:hover {
+            border-color: #fbda00;
+        }
+
+        .rating-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        /* Results Page */
+        .results-container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .overall-score {
+            text-align: center;
+            padding: 40px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .score-number {
+            font-size: 72px;
+            font-weight: 700;
+            color: #fbda00;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .score-label {
+            font-size: 24px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 20px;
+        }
+
+        .score-interpretation {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #212121;
+        }
+
+        .lever-result {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            border-left: 4px solid #e0e0e0;
+        }
+
+        .lever-result.bottleneck {
+            border-left-color: #E63320;
+            background: #fff5f5;
+        }
+
+        .lever-result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .lever-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .lever-score {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fbda00;
+        }
+
+        .lever-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+
+        .lever-status.low {
+            background: #E63320;
+            color: white;
+        }
+
+        .lever-status.medium {
+            background: #fbda00;
+            color: #212121;
+        }
+
+        .lever-status.high {
+            background: #4caf50;
+            color: white;
+        }
+
+        .lever-description {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #212121;
+        }
+
+        .bottleneck-callout {
+            background: #E63320;
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .bottleneck-callout h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .bottleneck-callout p {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .bridge-copy {
+            padding: 40px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            margin: 40px 0;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .offer-section {
+            margin: 50px 0;
+        }
+
+        .offer-card {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+
+        .offer-card.emphasised {
+            border-color: #fbda00;
+            box-shadow: 0 8px 30px rgba(251, 218, 0, 0.2);
+        }
+
+        .offer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .offer-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .offer-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fbda00;
+        }
+
+        .offer-description {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .offer-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .offer-features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .offer-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #fbda00;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .logo-text {
+                font-size: 36px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .intro-features {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-scale {
+                flex-wrap: wrap;
+            }
+
+            .rating-option {
+                flex: 1 1 30%;
+            }
+
+            .score-number {
+                font-size: 56px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <div class="logo-text">
+                <span class="the">THE</span>
+                Lighthouse
+            </div>
+        </div>
+
+        <!-- Intro Page -->
+        <div id="page-intro" class="page active">
+            <div class="intro-content">
+                <h1>THE TRUST DIAGNOSTIC™</h1>
+                <p class="subtitle">Discover where trust is leaking in your business, and what it's costing you</p>
+                
+                <div class="intro-text">
+                    <p>You can be exceptional at what you do and still struggle to be chosen. Not because your work isn't good, not because you're doing something wrong, but because in today's Trust Economy, expertise alone is no longer enough.</p>
+                    
+                    <p>Buyers decide based on trust architecture. How safe you feel, how clear you are, how consistent your authority appears and how easily they can choose you.</p>
+                    
+                    <p>This diagnostic reveals which trust lever is currently limiting your growth, and why things feel harder than they should.</p>
+                    
+                    <p><strong>This is not a personality quiz, it's not a fluffy assessment and it's not designed for beginners.</strong> It's built for established experts, founders, coaches, and leaders who know they're capable of more.</p>
+                </div>
+
+                <div class="intro-features">
+                    <div class="feature">⏱ Takes 5–7 minutes</div>
+                    <div class="feature">📊 Precision trust scoring</div>
+                    <div class="feature">🧠 Buyer-psychology driven</div>
+                    <div class="feature">🔍 Reveals your primary trust bottleneck</div>
+                </div>
+
+                <button class="btn" onclick="showPage('page-email')">Start The Diagnostic</button>
+            </div>
+        </div>
+
+        <!-- Email Capture -->
+        <div id="page-email" class="page">
+            <div class="email-form">
+                <h1 style="text-align: center; margin-bottom: 30px;">Before we begin...</h1>
+                <p style="text-align: center; margin-bottom: 40px; font-size: 16px;">Your results will be emailed to you, along with your personalised recommendations.</p>
+                
+                <form id="emailForm" onsubmit="return submitEmail(event)">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">Continue to Questions</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Progress Bar (shown on question pages) -->
+        <div id="progress-container" class="progress-container" style="display: none;">
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Question 1 of 24</div>
+        </div>
+
+        <!-- Lever 1: Recognition -->
+        <div id="page-lever1" class="page">
+            <div class="question-container">
+                <div class="lever-title">Lever 1: Recognition</div>
+                
+                <!-- Question 1 -->
+                <div class="question">
+                    <div class="question-number">Question 1 of 24</div>
+                    <div class="question-text">People who encounter my brand for the first time quickly recognise that I operate at a higher level than most others in my space.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q1" id="q1-1" value="1" required>
+                            <label for="q1-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q1" id="q1-2" value="2">
+                            <label for="q1-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q1" id="q1-3" value="3">
+                            <label for="q1-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q1" id="q1-4" value="4">
+                            <label for="q1-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q1" id="q1-5" value="5">
+                            <label for="q1-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question">
+                    <div class="question-number">Question 2 of 24</div>
+                    <div class="question-text">Potential clients rarely compare me to others once they understand what I do.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q2" id="q2-1" value="1" required>
+                            <label for="q2-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q2" id="q2-2" value="2">
+                            <label for="q2-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q2" id="q2-3" value="3">
+                            <label for="q2-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q2" id="q2-4" value="4">
+                            <label for="q2-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q2" id="q2-5" value="5">
+                            <label for="q2-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question">
+                    <div class="question-number">Question 3 of 24</div>
+                    <div class="question-text">When people enquire, they already see me as the obvious fit rather than one option among many.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q3" id="q3-1" value="1" required>
+                            <label for="q3-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q3" id="q3-2" value="2">
+                            <label for="q3-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q3" id="q3-3" value="3">
+                            <label for="q3-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q3" id="q3-4" value="4">
+                            <label for="q3-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q3" id="q3-5" value="5">
+                            <label for="q3-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="question">
+                    <div class="question-number">Question 4 of 24</div>
+                    <div class="question-text">My positioning makes it immediately clear why someone should choose me instead of continuing to look elsewhere.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q4" id="q4-1" value="1" required>
+                            <label for="q4-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q4" id="q4-2" value="2">
+                            <label for="q4-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q4" id="q4-3" value="3">
+                            <label for="q4-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q4" id="q4-4" value="4">
+                            <label for="q4-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q4" id="q4-5" value="5">
+                            <label for="q4-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="showPage('page-email')">Back</button>
+                    <button class="btn" onclick="validateAndContinue('page-lever1', 'page-lever2', [1,2,3,4])">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lever 2: Comprehension -->
+        <div id="page-lever2" class="page">
+            <div class="question-container">
+                <div class="lever-title">Lever 2: Comprehension</div>
+                
+                <!-- Question 5 -->
+                <div class="question">
+                    <div class="question-number">Question 5 of 24</div>
+                    <div class="question-text">People who encounter my brand can quickly explain what I do and who it's for without needing clarification.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q5" id="q5-1" value="1" required>
+                            <label for="q5-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q5" id="q5-2" value="2">
+                            <label for="q5-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q5" id="q5-3" value="3">
+                            <label for="q5-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q5" id="q5-4" value="4">
+                            <label for="q5-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q5" id="q5-5" value="5">
+                            <label for="q5-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="question">
+                    <div class="question-number">Question 6 of 24</div>
+                    <div class="question-text">Potential clients immediately understand why my work matters to their situation.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q6" id="q6-1" value="1" required>
+                            <label for="q6-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q6" id="q6-2" value="2">
+                            <label for="q6-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q6" id="q6-3" value="3">
+                            <label for="q6-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q6" id="q6-4" value="4">
+                            <label for="q6-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q6" id="q6-5" value="5">
+                            <label for="q6-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="question">
+                    <div class="question-number">Question 7 of 24</div>
+                    <div class="question-text">New buyers clearly understand the result or transformation they can expect from working with me.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q7" id="q7-1" value="1" required>
+                            <label for="q7-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q7" id="q7-2" value="2">
+                            <label for="q7-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q7" id="q7-3" value="3">
+                            <label for="q7-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q7" id="q7-4" value="4">
+                            <label for="q7-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q7" id="q7-5" value="5">
+                            <label for="q7-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="question">
+                    <div class="question-number">Question 8 of 24</div>
+                    <div class="question-text">Sales conversations rarely get stuck on basic explanations of what I do or how it helps.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q8" id="q8-1" value="1" required>
+                            <label for="q8-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q8" id="q8-2" value="2">
+                            <label for="q8-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q8" id="q8-3" value="3">
+                            <label for="q8-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q8" id="q8-4" value="4">
+                            <label for="q8-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q8" id="q8-5" value="5">
+                            <label for="q8-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="showPage('page-lever1')">Back</button>
+                    <button class="btn" onclick="validateAndContinue('page-lever2', 'page-lever3', [5,6,7,8])">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lever 3: Evidence -->
+        <div id="page-lever3" class="page">
+            <div class="question-container">
+                <div class="lever-title">Lever 3: Evidence</div>
+                
+                <!-- Question 9 -->
+                <div class="question">
+                    <div class="question-number">Question 9 of 24</div>
+                    <div class="question-text">My brand clearly demonstrates results that feel relevant and relatable to my ideal buyers.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q9" id="q9-1" value="1" required>
+                            <label for="q9-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q9" id="q9-2" value="2">
+                            <label for="q9-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q9" id="q9-3" value="3">
+                            <label for="q9-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q9" id="q9-4" value="4">
+                            <label for="q9-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q9" id="q9-5" value="5">
+                            <label for="q9-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="question">
+                    <div class="question-number">Question 10 of 24</div>
+                    <div class="question-text">Potential clients can easily see that my work produces consistent results, not one-off wins.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q10" id="q10-1" value="1" required>
+                            <label for="q10-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q10" id="q10-2" value="2">
+                            <label for="q10-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q10" id="q10-3" value="3">
+                            <label for="q10-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q10" id="q10-4" value="4">
+                            <label for="q10-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q10" id="q10-5" value="5">
+                            <label for="q10-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 11 -->
+                <div class="question">
+                    <div class="question-number">Question 11 of 24</div>
+                    <div class="question-text">Buyers rarely question whether my work will apply to their specific situation.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q11" id="q11-1" value="1" required>
+                            <label for="q11-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q11" id="q11-2" value="2">
+                            <label for="q11-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q11" id="q11-3" value="3">
+                            <label for="q11-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q11" id="q11-4" value="4">
+                            <label for="q11-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q11" id="q11-5" value="5">
+                            <label for="q11-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 12 -->
+                <div class="question">
+                    <div class="question-number">Question 12 of 24</div>
+                    <div class="question-text">My evidence reduces hesitation and makes the decision to work with me feel safe.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q12" id="q12-1" value="1" required>
+                            <label for="q12-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q12" id="q12-2" value="2">
+                            <label for="q12-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q12" id="q12-3" value="3">
+                            <label for="q12-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q12" id="q12-4" value="4">
+                            <label for="q12-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q12" id="q12-5" value="5">
+                            <label for="q12-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="showPage('page-lever2')">Back</button>
+                    <button class="btn" onclick="validateAndContinue('page-lever3', 'page-lever4', [9,10,11,12])">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lever 4: Resonance -->
+        <div id="page-lever4" class="page">
+            <div class="question-container">
+                <div class="lever-title">Lever 4: Resonance</div>
+                
+                <!-- Question 13 -->
+                <div class="question">
+                    <div class="question-number">Question 13 of 24</div>
+                    <div class="question-text">People feel seen, understood, and reflected in my message, not just informed.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q13" id="q13-1" value="1" required>
+                            <label for="q13-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q13" id="q13-2" value="2">
+                            <label for="q13-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q13" id="q13-3" value="3">
+                            <label for="q13-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q13" id="q13-4" value="4">
+                            <label for="q13-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q13" id="q13-5" value="5">
+                            <label for="q13-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 14 -->
+                <div class="question">
+                    <div class="question-number">Question 14 of 24</div>
+                    <div class="question-text">My voice and perspective feel clearly distinct rather than blended into industry noise.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q14" id="q14-1" value="1" required>
+                            <label for="q14-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q14" id="q14-2" value="2">
+                            <label for="q14-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q14" id="q14-3" value="3">
+                            <label for="q14-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q14" id="q14-4" value="4">
+                            <label for="q14-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q14" id="q14-5" value="5">
+                            <label for="q14-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 15 -->
+                <div class="question">
+                    <div class="question-number">Question 15 of 24</div>
+                    <div class="question-text">Buyers are drawn to me because of who I am and how I think, not just what I teach.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q15" id="q15-1" value="1" required>
+                            <label for="q15-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q15" id="q15-2" value="2">
+                            <label for="q15-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q15" id="q15-3" value="3">
+                            <label for="q15-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q15" id="q15-4" value="4">
+                            <label for="q15-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q15" id="q15-5" value="5">
+                            <label for="q15-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 16 -->
+                <div class="question">
+                    <div class="question-number">Question 16 of 24</div>
+                    <div class="question-text">People want to follow my work over time, not just consume isolated pieces of content.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q16" id="q16-1" value="1" required>
+                            <label for="q16-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q16" id="q16-2" value="2">
+                            <label for="q16-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q16" id="q16-3" value="3">
+                            <label for="q16-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q16" id="q16-4" value="4">
+                            <label for="q16-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q16" id="q16-5" value="5">
+                            <label for="q16-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="showPage('page-lever3')">Back</button>
+                    <button class="btn" onclick="validateAndContinue('page-lever4', 'page-lever5', [13,14,15,16])">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lever 5: Regulation -->
+        <div id="page-lever5" class="page">
+            <div class="question-container">
+                <div class="lever-title">Lever 5: Regulation</div>
+                
+                <!-- Question 17 -->
+                <div class="question">
+                    <div class="question-number">Question 17 of 24</div>
+                    <div class="question-text">My presence and leadership feel calm, grounded, and steady to others, even as my business grows.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q17" id="q17-1" value="1" required>
+                            <label for="q17-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q17" id="q17-2" value="2">
+                            <label for="q17-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q17" id="q17-3" value="3">
+                            <label for="q17-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q17" id="q17-4" value="4">
+                            <label for="q17-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q17" id="q17-5" value="5">
+                            <label for="q17-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 18 -->
+                <div class="question">
+                    <div class="question-number">Question 18 of 24</div>
+                    <div class="question-text">Visibility, responsibility, and growth feel sustainable for me rather than overwhelming.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q18" id="q18-1" value="1" required>
+                            <label for="q18-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q18" id="q18-2" value="2">
+                            <label for="q18-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q18" id="q18-3" value="3">
+                            <label for="q18-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q18" id="q18-4" value="4">
+                            <label for="q18-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q18" id="q18-5" value="5">
+                            <label for="q18-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 19 -->
+                <div class="question">
+                    <div class="question-number">Question 19 of 24</div>
+                    <div class="question-text">Clients and buyers experience my work as emotionally safe, contained, and well-held.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q19" id="q19-1" value="1" required>
+                            <label for="q19-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q19" id="q19-2" value="2">
+                            <label for="q19-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q19" id="q19-3" value="3">
+                            <label for="q19-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q19" id="q19-4" value="4">
+                            <label for="q19-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q19" id="q19-5" value="5">
+                            <label for="q19-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 20 -->
+                <div class="question">
+                    <div class="question-number">Question 20 of 24</div>
+                    <div class="question-text">I can consistently lead, sell, and deliver without burning out or pulling back.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q20" id="q20-1" value="1" required>
+                            <label for="q20-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q20" id="q20-2" value="2">
+                            <label for="q20-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q20" id="q20-3" value="3">
+                            <label for="q20-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q20" id="q20-4" value="4">
+                            <label for="q20-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q20" id="q20-5" value="5">
+                            <label for="q20-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="showPage('page-lever4')">Back</button>
+                    <button class="btn" onclick="validateAndContinue('page-lever5', 'page-lever6', [17,18,19,20])">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lever 6: Reliability -->
+        <div id="page-lever6" class="page">
+            <div class="question-container">
+                <div class="lever-title">Lever 6: Reliability</div>
+                
+                <!-- Question 21 -->
+                <div class="question">
+                    <div class="question-number">Question 21 of 24</div>
+                    <div class="question-text">My brand shows up consistently, not just during launches or bursts of motivation.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q21" id="q21-1" value="1" required>
+                            <label for="q21-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q21" id="q21-2" value="2">
+                            <label for="q21-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q21" id="q21-3" value="3">
+                            <label for="q21-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q21" id="q21-4" value="4">
+                            <label for="q21-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q21" id="q21-5" value="5">
+                            <label for="q21-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 22 -->
+                <div class="question">
+                    <div class="question-number">Question 22 of 24</div>
+                    <div class="question-text">People know what to expect from my work and leadership over time.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q22" id="q22-1" value="1" required>
+                            <label for="q22-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q22" id="q22-2" value="2">
+                            <label for="q22-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q22" id="q22-3" value="3">
+                            <label for="q22-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q22" id="q22-4" value="4">
+                            <label for="q22-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q22" id="q22-5" value="5">
+                            <label for="q22-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 23 -->
+                <div class="question">
+                    <div class="question-number">Question 23 of 24</div>
+                    <div class="question-text">My work produces dependable, repeatable results rather than hit-or-miss outcomes.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q23" id="q23-1" value="1" required>
+                            <label for="q23-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q23" id="q23-2" value="2">
+                            <label for="q23-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q23" id="q23-3" value="3">
+                            <label for="q23-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q23" id="q23-4" value="4">
+                            <label for="q23-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q23" id="q23-5" value="5">
+                            <label for="q23-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <!-- Question 24 -->
+                <div class="question">
+                    <div class="question-number">Question 24 of 24</div>
+                    <div class="question-text">Trust in my brand compounds over time instead of needing to be rebuilt repeatedly.</div>
+                    <div class="rating-scale">
+                        <div class="rating-option">
+                            <input type="radio" name="q24" id="q24-1" value="1" required>
+                            <label for="q24-1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q24" id="q24-2" value="2">
+                            <label for="q24-2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q24" id="q24-3" value="3">
+                            <label for="q24-3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q24" id="q24-4" value="4">
+                            <label for="q24-4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" name="q24" id="q24-5" value="5">
+                            <label for="q24-5">5</label>
+                        </div>
+                    </div>
+                    <div class="rating-labels">
+                        <span>Strongly Disagree</span>
+                        <span>Strongly Agree</span>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="showPage('page-lever5')">Back</button>
+                    <button class="btn" onclick="calculateResults()">View My Results</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Page -->
+        <div id="page-results" class="page">
+            <div class="results-container">
+                <h1 style="text-align: center; margin-bottom: 40px;">Your Trust Diagnostic™ Results</h1>
+                
+                <!-- Overall Score -->
+                <div class="overall-score">
+                    <div class="score-number" id="overall-score-number">--</div>
+                    <div class="score-label">Overall Trust Score</div>
+                    <div class="score-interpretation" id="overall-interpretation"></div>
+                </div>
+
+                <!-- Lever Results -->
+                <h2 style="margin: 40px 0 20px 0;">Your Six Trust Levers™</h2>
+                
+                <div id="lever-results-container"></div>
+
+                <!-- Bottleneck Callout -->
+                <div class="bottleneck-callout" id="bottleneck-callout">
+                    <h2>Your Primary Trust Bottleneck</h2>
+                    <p id="bottleneck-text"></p>
+                </div>
+
+                <!-- Bridge Copy -->
+                <div class="bridge-copy">
+                    <p><strong>You now know where trust is leaking in your business, and how you can redesign your architecture to fill it.</strong></p>
+                    <p>When one trust lever weakens, everything downstream feels harder. Visibility doesn't convert, buyers hesitate and results become inconsistent.</p>
+                    <p>Once you know where the leak is, the right next step becomes clear.</p>
+                </div>
+
+                <!-- GPT Upgrade Offer -->
+                <div class="offer-section">
+                    <h2 style="margin-bottom: 30px;">Want help making sense of your results?</h2>
+                    
+                    <div class="offer-card">
+                        <div class="offer-header">
+                            <div class="offer-title">Trust Results Interpreter GPT</div>
+                            <div class="offer-price">£29</div>
+                        </div>
+                        <div class="offer-description">
+                            <p>Your Trust Results Interpreter is a private AI conversation trained in Gemma's Trust Ecosystem and trust and buyer psychology framework.</p>
+                            <p style="margin-top: 15px;"><strong>It doesn't just explain your scores</strong>, it helps you understand what they mean for you, why this pattern keeps repeating, and what your smartest next step is.</p>
+                        </div>
+                        <button class="btn" style="width: 100%; margin-top: 20px;" onclick="window.location.href='#gpt-purchase'">Unlock Your Personal Trust Results Interpreter</button>
+                    </div>
+                </div>
+
+                <!-- Paid Next Steps -->
+                <div class="offer-section">
+                    <h2 style="margin-bottom: 20px;">Your Next Steps</h2>
+                    <p style="margin-bottom: 30px; font-size: 15px; line-height: 1.7;">The quiz shows where trust leaks. The GPT interprets the results of the quiz and upsells. The Perception Map shows how that leak is being interpreted. The Audit shows why it's happening and how to fix it structurally.</p>
+                    
+                    <!-- Perception Map -->
+                    <div class="offer-card" id="perception-map-offer">
+                        <div class="offer-header">
+                            <div class="offer-title">The Perception Map™</div>
+                            <div class="offer-price">£49</div>
+                        </div>
+                        <div class="offer-description">
+                            <p><strong>Correct how the market perceives you, fast.</strong></p>
+                            <ul class="offer-features">
+                                <li>Shows how your identity and brilliance are currently being interpreted</li>
+                                <li>Reveals perception gaps</li>
+                                <li>Delivers the fastest visible shift toward "obvious choice" positioning</li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Recommended for:</strong> Recognition, Comprehension, or Resonance bottlenecks. Messaging or perception-led trust leaks.</p>
+                        </div>
+                        <button class="btn" style="width: 100%; margin-top: 20px;" onclick="window.location.href='#perception-map-purchase'">Get The Perception Map</button>
+                    </div>
+
+                    <!-- Trusted Authority Audit -->
+                    <div class="offer-card" id="audit-offer">
+                        <div class="offer-header">
+                            <div class="offer-title">The Trusted Authority Audit™</div>
+                            <div class="offer-price">£199</div>
+                        </div>
+                        <div class="offer-description">
+                            <p><strong>Rebuild structural trust architecture for consistent results.</strong></p>
+                            <ul class="offer-features">
+                                <li>Human-led, expert analysis</li>
+                                <li>Diagnoses why trust doesn't compound</li>
+                                <li>Identifies structural fixes for stability, scale, and consistency</li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Recommended for:</strong> Regulation or Reliability bottlenecks. Inconsistent results. High trust score but plateaued revenue.</p>
+                        </div>
+                        <button class="btn" style="width: 100%; margin-top: 20px;" onclick="window.location.href='#audit-purchase'">Get The Trusted Authority Audit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data storage
+        let quizData = {
+            firstName: '',
+            email: '',
+            responses: {}
+        };
+
+        // Lever descriptions
+        const leverDescriptions = {
+            recognition: {
+                name: 'Recognition',
+                description: 'Recognition determines whether buyers immediately see you as the obvious choice or compare you to others. When recognition is strong, potential clients quickly identify that you operate at a higher level. When it's weak, you blend into the noise.',
+                question: 'Do buyers immediately recognise you as the obvious and only choice, or do they compare you to others?'
+            },
+            comprehension: {
+                name: 'Comprehension',
+                description: 'Comprehension measures whether buyers instantly understand what you do, why it matters, and the result they'll get. When comprehension is strong, your positioning is crystal clear. When it's weak, sales conversations stall on basic explanations.',
+                question: 'Do buyers instantly understand what you do, why it matters to them, and the result they'll get?'
+            },
+            evidence: {
+                name: 'Evidence',
+                description: 'Evidence shows whether buyers believe your work gets consistent results for people like them. Strong evidence reduces perceived risk and hesitation. Weak evidence leaves buyers questioning whether your work will apply to their situation.',
+                question: 'Do buyers believe your work gets consistent results for people like them, reducing perceived risk?'
+            },
+            resonance: {
+                name: 'Resonance',
+                description: 'Resonance measures whether buyers feel emotionally connected to your identity and leadership, not just informed. Strong resonance means people follow your work over time because of who you are. Weak resonance means your voice blends into industry noise.',
+                question: 'Do buyers feel emotionally connected to your identity and leadership, not just informed?'
+            },
+            regulation: {
+                name: 'Regulation',
+                description: 'Regulation determines whether buyers feel safe, grounded, and steady in your presence. Strong regulation creates emotional safety and trust. Weak regulation shows up as overwhelm, inconsistency, or burnout that buyers can sense.',
+                question: 'Do buyers feel safe, grounded, and steady in your presence and delivery?'
+            },
+            reliability: {
+                name: 'Reliability',
+                description: 'Reliability measures whether trust and results compound over time or reset repeatedly. Strong reliability means your brand shows up consistently and delivers dependable outcomes. Weak reliability creates a pattern of rebuilding trust from scratch.',
+                question: 'Does trust and results compound over time, or reset repeatedly?'
+            }
+        };
+
+        // Show page function
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show requested page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Show/hide progress bar
+            if (pageId.includes('lever')) {
+                document.getElementById('progress-container').style.display = 'block';
+                updateProgress();
+            } else {
+                document.getElementById('progress-container').style.display = 'none';
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Submit email form
+        function submitEmail(event) {
+            event.preventDefault();
+            quizData.firstName = document.getElementById('firstName').value;
+            quizData.email = document.getElementById('email').value;
+            showPage('page-lever1');
+            return false;
+        }
+
+        // Validate and continue function
+        function validateAndContinue(currentPage, nextPage, questionNumbers) {
+            // Check if all questions on current page are answered
+            let allAnswered = true;
+            questionNumbers.forEach(qNum => {
+                const radios = document.getElementsByName('q' + qNum);
+                let answered = false;
+                radios.forEach(radio => {
+                    if (radio.checked) {
+                        answered = true;
+                        quizData.responses['q' + qNum] = parseInt(radio.value);
+                    }
+                });
+                if (!answered) allAnswered = false;
+            });
+            
+            if (!allAnswered) {
+                alert('Please answer all questions before continuing.');
+                return;
+            }
+            
+            showPage(nextPage);
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const totalQuestions = 24;
+            const answeredCount = Object.keys(quizData.responses).length;
+            const percentage = (answeredCount / totalQuestions) * 100;
+            
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = `Question ${answeredCount + 1} of ${totalQuestions}`;
+        }
+
+        // Calculate results
+        function calculateResults() {
+            // Validate all questions answered
+            const questionNumbers = [21, 22, 23, 24];
+            let allAnswered = true;
+            questionNumbers.forEach(qNum => {
+                const radios = document.getElementsByName('q' + qNum);
+                let answered = false;
+                radios.forEach(radio => {
+                    if (radio.checked) {
+                        answered = true;
+                        quizData.responses['q' + qNum] = parseInt(radio.value);
+                    }
+                });
+                if (!answered) allAnswered = false;
+            });
+            
+            if (!allAnswered) {
+                alert('Please answer all questions before viewing results.');
+                return;
+            }
+            
+            // Calculate lever scores
+            const leverScores = {
+                recognition: quizData.responses.q1 + quizData.responses.q2 + quizData.responses.q3 + quizData.responses.q4,
+                comprehension: quizData.responses.q5 + quizData.responses.q6 + quizData.responses.q7 + quizData.responses.q8,
+                evidence: quizData.responses.q9 + quizData.responses.q10 + quizData.responses.q11 + quizData.responses.q12,
+                resonance: quizData.responses.q13 + quizData.responses.q14 + quizData.responses.q15 + quizData.responses.q16,
+                regulation: quizData.responses.q17 + quizData.responses.q18 + quizData.responses.q19 + quizData.responses.q20,
+                reliability: quizData.responses.q21 + quizData.responses.q22 + quizData.responses.q23 + quizData.responses.q24
+            };
+            
+            // Calculate overall score
+            const overallScore = Object.values(leverScores).reduce((a, b) => a + b, 0);
+            
+            // Find lowest lever (bottleneck)
+            let bottleneck = Object.keys(leverScores).reduce((a, b) => 
+                leverScores[a] < leverScores[b] ? a : b
+            );
+            
+            // Display results
+            displayResults(overallScore, leverScores, bottleneck);
+            
+            // Show results page
+            showPage('page-results');
+        }
+
+        // Display results
+        function displayResults(overallScore, leverScores, bottleneck) {
+            // Overall score
+            document.getElementById('overall-score-number').textContent = overallScore;
+            
+            // Overall interpretation
+            let interpretation = '';
+            if (overallScore >= 24 && overallScore <= 54) {
+                interpretation = 'Trust is fragmented. Buyers hesitate, compare, or delay. This is your opportunity to rebuild trust architecture systematically.';
+            } else if (overallScore >= 55 && overallScore <= 89) {
+                interpretation = 'Trust is present but leaking. Credibility exists, but gaps constrain growth. You are closer than you think to breakthrough momentum.';
+            } else {
+                interpretation = 'Trust is strong and compounding. Authority works in your favour. Focus on optimising what is already working and addressing any remaining weak points.';
+            }
+            document.getElementById('overall-interpretation').textContent = interpretation;
+            
+            // Lever results
+            const leverResultsContainer = document.getElementById('lever-results-container');
+            leverResultsContainer.innerHTML = '';
+            
+            Object.keys(leverScores).forEach(lever => {
+                const score = leverScores[lever];
+                const leverInfo = leverDescriptions[lever];
+                const isBottleneck = lever === bottleneck;
+                
+                // Determine status
+                let status = '';
+                let statusClass = '';
+                if (score >= 4 && score <= 9) {
+                    status = 'Low';
+                    statusClass = 'low';
+                } else if (score >= 10 && score <= 15) {
+                    status = 'Medium';
+                    statusClass = 'medium';
+                } else {
+                    status = 'High';
+                    statusClass = 'high';
+                }
+                
+                const leverHtml = `
+                    <div class="lever-result ${isBottleneck ? 'bottleneck' : ''}">
+                        <div class="lever-result-header">
+                            <div>
+                                <span class="lever-name">${leverInfo.name}</span>
+                                <span class="lever-status ${statusClass}">${status}</span>
+                            </div>
+                            <div class="lever-score">${score}/20</div>
+                        </div>
+                        <div class="lever-description">
+                            <p><strong>${leverInfo.question}</strong></p>
+                            <p style="margin-top: 10px;">${leverInfo.description}</p>
+                        </div>
+                    </div>
+                `;
+                
+                leverResultsContainer.innerHTML += leverHtml;
+            });
+            
+            // Bottleneck callout
+            const bottleneckInfo = leverDescriptions[bottleneck];
+            document.getElementById('bottleneck-text').innerHTML = `
+                <strong>${bottleneckInfo.name}</strong> is your primary trust bottleneck. Even if everything else is strong, trust cannot fully convert or compound whilst this remains weak. This is where your attention needs to go first.
+            `;
+            
+            // Offer emphasis logic
+            const perceptionMapOffer = document.getElementById('perception-map-offer');
+            const auditOffer = document.getElementById('audit-offer');
+            
+            // Emphasise Perception Map if: Recognition, Comprehension, or Resonance is lowest OR overall score < 90
+            if (['recognition', 'comprehension', 'resonance'].includes(bottleneck) || overallScore < 90) {
+                perceptionMapOffer.classList.add('emphasised');
+            }
+            
+            // Emphasise Audit if: Regulation or Reliability is lowest OR score >= 90 OR Evidence is low
+            if (['regulation', 'reliability'].includes(bottleneck) || overallScore >= 90 || 
+                (bottleneck === 'evidence' && leverScores.evidence < 10)) {
+                auditOffer.classList.add('emphasised');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial page
+            showPage('page-intro');
+        });
+    </script>
+</body>
+</html>
