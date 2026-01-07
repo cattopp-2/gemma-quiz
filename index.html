@@ -181,6 +181,7 @@
             border-radius: 8px;
             margin-bottom: 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: none; /* Hidden as requested */
         }
 
         .progress-bar {
@@ -1447,8 +1448,8 @@
 
                 <!-- Bridge Copy -->
                 <div class="bridge-copy">
-                    <p><strong>You now know where trust is leaking in your business, and how you can redesign your architecture to fill it.</strong></p>
-                    <p>When one trust lever weakens, everything downstream feels harder. Visibility doesn't convert, buyers hesitate and results become inconsistent.</p>
+                    <p style="margin-bottom: 20px;"><strong>You now know where trust is leaking in your business, and how you can redesign your architecture to fill it.</strong></p>
+                    <p style="margin-bottom: 20px;">When one trust lever weakens, everything downstream feels harder. Visibility doesn't convert, buyers hesitate and results become inconsistent.</p>
                     <p>Once you know where the leak is, the right next step becomes clear.</p>
                 </div>
 
@@ -1567,14 +1568,6 @@
             
             // Show requested page
             document.getElementById(pageId).classList.add("active");
-            
-            // Show/hide progress bar
-            if (pageId.includes("lever")) {
-                document.getElementById("progress-container").style.display = "block";
-                updateProgress();
-            } else {
-                document.getElementById("progress-container").style.display = "none";
-            }
             
             // Scroll to top
             window.scrollTo(0, 0);
