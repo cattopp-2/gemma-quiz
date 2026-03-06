@@ -1049,9 +1049,10 @@
 
             const overallScore = Object.values(leverScores).reduce((a, b) => a + b, 0);
 
-            let bottleneck = Object.keys(leverScores).reduce((a, b) =>
-                leverScores[a] < leverScores[b] ? a : b
-            );
+            // Find the lowest scoring lever (true minimum)
+            let bottleneck = Object.keys(leverScores).reduce((lowest, current) => {
+                return leverScores[current] < leverScores[lowest] ? current : lowest;
+            });
 
             // 🔑 Submit to Kajabi silently here
             const bottleneckName = leverDescriptions[bottleneck].name;
